@@ -1,0 +1,11 @@
+imagens/hamburguer.jpg
+
+imagens/pizza.jpg
+
+imagens/massa.jpg
+
+<img src="imagens/hamburguer.jpg" width="250">
+
+<img src="imagens/pizza.jpg" width="250">
+
+<img src="imagens/massa.jpg" width="250">

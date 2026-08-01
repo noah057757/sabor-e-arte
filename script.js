@@ -37,7 +37,89 @@ function adicionarProduto(nome, preco) {
         });
     }
 
+function atualizarCarrinho() {
+
+    const lista = document.querySelector("#lista-carrinho");
+    const total = document.querySelector("#total");
+
+    if (!lista) return;
+
+    lista.innerHTML = "";
+
+    let valorTotal = 0;
+
+    carrinho.forEach(produto => {
+
+        const item = document.createElement("div");
+
+        item.innerHTML = `
+            <p>
+            ${produto.nome}
+            <br>
+
+            R$ ${(produto.preco * produto.quantidade)
+            .toFixed(2)
+            .replace(".", ",")}
+
+            <br>
+
+            <button onclick="diminuirProduto('${produto.nome}')">
+            ➖
+            </button>
+
+            ${produto.quantidade}
+
+            <button onclick="aumentarProduto('${produto.nome}')">
+            ➕
+            </button>
+
+            <button onclick="removerProduto('${produto.nome}')">
+            ❌
+            </button>
+
+            </p>
+            <hr>
+        `;
+
+        lista.appendChild(item);
+
+        valorTotal += produto.preco * produto.quantidade;
+    });
+
+
+    total.innerHTML =
+    `Total: R$ ${valorTotal.toFixed(2).replace(".", ",")}`;
+}
+
+
+function aumentarProduto(nome) {
+
+    const produto = carrinho.find(
+        produto => produto.nome === nome
+    );
+
+    if (produto) {
+        produto.quantidade++;
+    }
+
     atualizarCarrinho();
+}
+
+
+function diminuirProduto(nome) {
+
+    const produto = carrinho.find(
+        produto => produto.nome === nome
+    );
+
+    if (produto && produto.quantidade > 1) {
+        produto.quantidade--;
+    } else {
+        removerProduto(nome);
+    }
+
+    atualizarCarrinho();
+}
 }
 
 

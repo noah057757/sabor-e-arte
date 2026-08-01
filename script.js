@@ -9,16 +9,34 @@ botoes.forEach((botao) => {
         const prato = botao.parentElement;
 
         const nome = prato.querySelector("h3").innerText;
-        const preco = prato.querySelector("strong").innerText;
+        const precoTexto = prato.querySelector("strong").innerText;
 
-        carrinho.push({
-            nome: nome,
-            preco: preco
-        });
+        const preco = Number(
+            precoTexto.replace("R$", "").replace(",", ".").trim()
+        );
+
+
+        const itemExistente = carrinho.find(
+            item => item.nome === nome
+        );
+
+
+        if(itemExistente){
+
+            itemExistente.quantidade++;
+
+        } else {
+
+            carrinho.push({
+                nome: nome,
+                preco: preco,
+                quantidade: 1
+            });
+
+        }
+
 
         atualizarCarrinho();
-
-        alert(nome + " foi adicionado ao carrinho!");
 
     });
 
@@ -27,29 +45,78 @@ botoes.forEach((botao) => {
 
 function atualizarCarrinho(){
 
-    const areaCarrinho = document.querySelector("#carrinho");
+    const lista = document.querySelector("#listaCarrinho");
+    const total = document.querySelector("#total");
 
-    let lista = "<h2>🛒 Seu Carrinho</h2>";
 
     if(carrinho.length === 0){
 
-        lista += "<p>Nenhum item adicionado ainda.</p>";
-
-    } else {
-
-        lista += "<ul>";
-
-        carrinho.forEach((item)=>{
-
-            lista += `<li>${item.nome} - ${item.preco}</li>`;
-
-        });
-
-        lista += "</ul>";
+        lista.innerHTML = "<p>Nenhum item adicionado ainda.</p>";
+        total.innerHTML = "Total: R$ 0,00";
+        return;
 
     }
 
 
-    areaCarrinho.innerHTML = lista;
+    let html = "<ul>";
+    let valorTotal = 0;
+
+
+    carrinho.forEach((item, index)=>{
+
+        valorTotal += item.preco * item.quantidade;
+
+
+        html += `
+        <li>
+        ${item.nome}
+        <br>
+        Quantidade: ${item.quantidade}
+        <br>
+        R$ ${(item.preco * item.quantidade).toFixed(2)}
+        <button onclick="removerItem(${index})">
+        ❌ Remover
+        </button>
+        </li>
+        `;
+
+    });
+
+
+    html += "</ul>";
+
+
+    lista.innerHTML = html;
+
+    total.innerHTML =
+    "Total: R$ " + valorTotal.toFixed(2).replace(".", ",");
+
+}
+
+
+
+function removerItem(index){
+
+    carrinho.splice(index, 1);
+
+    atualizarCarrinho();
+
+}
+
+
+
+document.querySelector("#finalizar").addEventListener("click", ()=>{
+
+    if(carrinho.length === 0){
+
+        alert("Seu carrinho está vazio!");
+
+    } else {
+
+        alert("Pedido enviado! Obrigado por comprar no Sabor e Arte 🍽️");
+
+    }
+
+});
 
 }

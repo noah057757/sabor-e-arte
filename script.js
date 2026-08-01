@@ -171,4 +171,5 @@ function atualizarCarrinho() {
 
     total.innerHTML =
     `Total: R$ ${valorTotal.toFixed(2).replace(".", ",")}`;
+    const numero = "5549999793684";
 }

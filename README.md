@@ -88,7 +88,7 @@
 
     <h2>Contato</h2>
 
-    <p>📱 WhatsApp: (00) 00000-0000</p>
+    <p>📱 WhatsApp: (49) 99079-3684</p>
     <p>📍 Atendimento todos os dias</p>
 
 </section>
